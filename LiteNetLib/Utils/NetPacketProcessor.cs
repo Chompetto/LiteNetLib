@@ -146,6 +146,13 @@ namespace LiteNetLib.Utils
             manager.SendToAll(_netDataWriter, options);
         }
 
+        public void Send<T>(NetManager manager, T packet, DeliveryMethod options, NetPeer excludePeer) where T : class, new()
+        {
+            _netDataWriter.Reset();
+            Write(_netDataWriter, packet);
+            manager.SendToAll(_netDataWriter, options, excludePeer);
+        }
+
         public void SendNetSerializable<T>(NetManager manager, T packet, DeliveryMethod options) where T : INetSerializable
         {
             _netDataWriter.Reset();
