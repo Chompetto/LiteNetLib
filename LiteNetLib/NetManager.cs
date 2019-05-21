@@ -635,7 +635,7 @@ namespace LiteNetLib
             else
             {
                 //Accept
-                request.Peer.Accept(request.ConnectionId, request.ConnectionNumber);
+                request.Peer.Accept(request.ConnectionId, request.ConnectionNumber, request.Data);
                 //TODO: sync
                 //Add event
                 CreateEvent(NetEvent.EType.Connect, request.Peer);

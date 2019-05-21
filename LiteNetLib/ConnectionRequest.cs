@@ -28,13 +28,14 @@ namespace LiteNetLib
         private int _used;
 
         public IPEndPoint RemoteEndPoint { get { return Peer.EndPoint; } }
-        public readonly NetDataReader Data;
+        //public readonly NetDataReader Data;
         public ConnectionRequestResult Result { get; private set; }
         public ConnectionRequestType Type { get; private set; }
 
         internal readonly long ConnectionId;
         internal readonly byte ConnectionNumber;
         internal readonly NetPeer Peer;
+        public readonly byte[] Data;
 
         private bool TryActivate()
         {
@@ -53,30 +54,9 @@ namespace LiteNetLib
             ConnectionNumber = connectionNumber;
             Type = type;
             Peer = peer;
-            Data = netDataReader;
+           // var dd = netDataReader.GetString();
+            Data = netDataReader.GetRemainingBytes();
             _listener = listener;
-        }
-
-        public NetPeer AcceptIfKey(string key)
-        {
-            if (!TryActivate())
-                return null;
-            try
-            {
-                if (Data.GetString() == key)
-                {
-                    Result = ConnectionRequestResult.Accept;
-                    _listener.OnConnectionSolved(this, null, 0, 0);
-                    return Peer;
-                }
-            }
-            catch
-            {
-                NetDebug.WriteError("[AC] Invalid incoming data");
-            }
-            Result = ConnectionRequestResult.Reject;
-            _listener.OnConnectionSolved(this, null, 0, 0);
-            return null;
         }
 
         /// <summary>

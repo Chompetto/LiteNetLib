@@ -97,7 +97,9 @@ namespace LiteNetLib.Samples
 
             netListener.ConnectionRequestEvent += request =>
             {
-                request.AcceptIfKey(ConnectionKey);
+                var key = System.Text.Encoding.UTF8.GetBytes(ConnectionKey);
+                if (request.Data.SequenceEqual(key))
+                { request.Accept(); }
             };
 
             netListener.PeerDisconnectedEvent += (peer, disconnectInfo) =>

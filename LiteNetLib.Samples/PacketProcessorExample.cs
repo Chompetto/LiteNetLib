@@ -26,7 +26,12 @@ namespace LiteNetLib.Samples
             //setup events
             EventBasedNetListener clientListener = new EventBasedNetListener();
             EventBasedNetListener serverListener = new EventBasedNetListener();
-            serverListener.ConnectionRequestEvent += request => request.AcceptIfKey("key");
+            serverListener.ConnectionRequestEvent += request =>
+            {
+                var key = System.Text.Encoding.UTF8.GetBytes("key");
+                if (request.Data.SequenceEqual(key))
+                { request.Accept(); }
+            };
             serverListener.NetworkReceiveEvent +=
                 (peer, reader, method) => _netPacketProcessor.ReadAllPackets(reader, peer);
 

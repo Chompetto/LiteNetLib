@@ -361,11 +361,24 @@ namespace LiteNetLib.Utils
 
         public byte[] GetRemainingBytes()
         {
-            byte[] outgoingData = new byte[AvailableBytes];
-            Buffer.BlockCopy(_data, _position, outgoingData, 0, AvailableBytes);
+            int bytesCount = GetInt();
+            if (bytesCount <= 0)
+            {
+                return null;
+            }
+
+            var data = _data.Slice(_position, _data.Length);
             _position = _data.Length;
-            return outgoingData;
+            return data;
         }
+
+        //public byte[] GetRemainingBytes()
+        //{
+        //    byte[] outgoingData = new byte[AvailableBytes];
+        //    Buffer.BlockCopy(_data, _position, outgoingData, 0, AvailableBytes);
+        //    _position = _data.Length;
+        //    return outgoingData;
+        //}
 
         public void GetBytes(byte[] destination, int start, int count)
         {
@@ -674,6 +687,7 @@ namespace LiteNetLib.Utils
             _dataSize = 0;
             _data = null;
         }
+
     }
 }
 

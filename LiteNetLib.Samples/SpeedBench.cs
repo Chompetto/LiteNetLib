@@ -42,7 +42,9 @@ namespace LiteNetLib.Samples
 
             public void OnConnectionRequest(ConnectionRequest request)
             {
-                request.AcceptIfKey("ConnKey");
+                var key = System.Text.Encoding.UTF8.GetBytes("ConnKey");
+                if (request.Data.SequenceEqual(key))
+                { request.Accept(); }
             }
 
             void INetEventListener.OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
@@ -136,7 +138,9 @@ namespace LiteNetLib.Samples
 
             public void OnConnectionRequest(ConnectionRequest request)
             {
-                request.AcceptIfKey("ConnKey");
+                var key = System.Text.Encoding.UTF8.GetBytes("ConnKey");
+                if (request.Data.SequenceEqual(key))
+                { request.Accept(); }
             }
 
             void INetEventListener.OnNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)

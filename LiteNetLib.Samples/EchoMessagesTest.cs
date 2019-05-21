@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -147,7 +148,8 @@ namespace LiteNetLib.Samples
 
             public void OnConnectionRequest(ConnectionRequest request)
             {
-                var acceptedPeer = request.AcceptIfKey("gamekey");
+                var key = System.Text.Encoding.UTF8.GetBytes("gamekey");
+                var acceptedPeer = request.Data.SequenceEqual(key) ? request.Accept() : null;
                 Console.WriteLine("[Server] ConnectionRequest. Ep: {0}, Accepted: {1}",
                     request.RemoteEndPoint,
                     acceptedPeer != null);

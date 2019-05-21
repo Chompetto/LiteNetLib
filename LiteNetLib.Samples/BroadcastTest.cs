@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -49,7 +50,9 @@ namespace LiteNetLib.Samples
 
             public void OnConnectionRequest(ConnectionRequest request)
             {
-                request.AcceptIfKey("key");
+                var key = System.Text.Encoding.UTF8.GetBytes("key");
+                if (request.Data.SequenceEqual(key))
+                { request.Accept(); }
             }
         }
 
@@ -97,7 +100,7 @@ namespace LiteNetLib.Samples
 
             public void OnConnectionRequest(ConnectionRequest request)
             {
-                
+
             }
         }
 

@@ -121,7 +121,7 @@ namespace LiteNetLib
         private readonly NetPacket _pongPacket;
         private readonly NetPacket _connectRequestPacket;
         private NetPacket _connectAcceptPacket;
-
+        private byte[] ConnectionData;
         /// <summary>
         /// Current connection state
         /// </summary>
@@ -235,11 +235,12 @@ namespace LiteNetLib
         }
 
         //"Accept" incoming constructor
-        internal void Accept(long connectId, byte connectNum)
+        internal void Accept(long connectId, byte connectNum, byte[] connectionData)
         {
             _connectTime = connectId;
             _connectionState = ConnectionState.Connected;
             ConnectionNum = connectNum;
+            ConnectionData = connectionData;
 
             //Make initial packet
             _connectAcceptPacket = NetConnectAcceptPacket.Make(_connectTime, connectNum, false);

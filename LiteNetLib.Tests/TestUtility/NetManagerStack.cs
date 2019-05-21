@@ -99,7 +99,9 @@ namespace LiteNetLib.Tests.TestUtility
                 var listener = new EventBasedNetListener();
                 listener.ConnectionRequestEvent += request =>
                 {
-                    request.AcceptIfKey(_appKey);
+                    var keyd = System.Text.Encoding.UTF8.GetBytes(_appKey);
+                    if (request.Data.SequenceEqual(keyd))
+                    { request.Accept(); }
                 };
                 NetManager netManager;
                 if (isClient)

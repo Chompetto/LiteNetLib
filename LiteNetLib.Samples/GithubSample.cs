@@ -15,8 +15,12 @@ namespace LiteNetLib.Samples
 
             listener.ConnectionRequestEvent += request =>
             {
-                if(server.PeersCount < 10 /* max connections */)
-                    request.AcceptIfKey("SomeConnectionKey");
+                if (server.PeersCount < 10 /* max connections */)
+                {
+                    var key = System.Text.Encoding.UTF8.GetBytes("SomeConnectionKey");
+                    if (request.Data.SequenceEqual(key))
+                    { request.Accept(); }
+                }
                 else
                     request.Reject();
             };
