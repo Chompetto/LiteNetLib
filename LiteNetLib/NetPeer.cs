@@ -121,7 +121,7 @@ namespace LiteNetLib
         private readonly NetPacket _pongPacket;
         private readonly NetPacket _connectRequestPacket;
         private NetPacket _connectAcceptPacket;
-        private byte[] ConnectionData;
+        public byte[] ConnectionData { get; private set; }
         /// <summary>
         /// Current connection state
         /// </summary>
