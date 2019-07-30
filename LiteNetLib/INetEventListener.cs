@@ -9,8 +9,7 @@ namespace LiteNetLib
     public enum UnconnectedMessageType
     {
         BasicMessage,
-        DiscoveryRequest,
-        DiscoveryResponse
+        Broadcast
     }
 
     /// <summary>
@@ -24,7 +23,8 @@ namespace LiteNetLib
         RemoteConnectionClose,
         DisconnectPeerCalled,
         ConnectionRejected,
-        InvalidProtocol
+        InvalidProtocol,
+        UnknownHost
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ namespace LiteNetLib
 
         public void ClearPeerDisconnectedEvent()
         {
-            PeerConnectedEvent = null;
+            PeerDisconnectedEvent = null;
         }
 
         public void ClearNetworkErrorEvent()

@@ -36,8 +36,9 @@ namespace LiteNetLib.Samples
 
             public void OnNetworkReceiveUnconnected(IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
             {
-                Console.WriteLine("[Client] ReceiveUnconnected {0}. From: {1}. Data: {2}", messageType, remoteEndPoint, reader.GetString(100));
-                if (messageType == UnconnectedMessageType.DiscoveryResponse)
+                var text = reader.GetString(100);
+                Console.WriteLine("[Client] ReceiveUnconnected {0}. From: {1}. Data: {2}", messageType, remoteEndPoint, text);
+                if (messageType == UnconnectedMessageType.BasicMessage && text == "SERVER DISCOVERY RESPONSE")
                 {
                     Client.Connect(remoteEndPoint, "key");
                 }
@@ -89,8 +90,8 @@ namespace LiteNetLib.Samples
             {
                 Console.WriteLine("[Server] ReceiveUnconnected {0}. From: {1}. Data: {2}", messageType, remoteEndPoint, reader.GetString(100));
                 NetDataWriter wrtier = new NetDataWriter();
-                wrtier.Put("SERVER DISCOVERY RESPONSE :)");
-                Server.SendDiscoveryResponse(wrtier, remoteEndPoint);
+                wrtier.Put("SERVER DISCOVERY RESPONSE");
+                Server.SendUnconnectedMessage(wrtier, remoteEndPoint);
             }
 
             public void OnNetworkLatencyUpdate(NetPeer peer, int latency)
@@ -115,7 +116,7 @@ namespace LiteNetLib.Samples
             _serverListener = new ServerListener();
 
             NetManager server = new NetManager(_serverListener);
-            server.DiscoveryEnabled = true;
+            server.BroadcastReceiveEnabled = true;
             if (!server.Start(9050))
             {
                 Console.WriteLine("Server start failed");
@@ -149,11 +150,11 @@ namespace LiteNetLib.Samples
             NetDataWriter writer = new NetDataWriter();
 
             writer.Put("CLIENT 1 DISCOVERY REQUEST");
-            client1.SendDiscoveryRequest(writer, 9050);
+            client1.SendBroadcast(writer, 9050);
             writer.Reset();
 
             writer.Put("CLIENT 2 DISCOVERY REQUEST");
-            client2.SendDiscoveryRequest(writer, 9050);
+            client2.SendBroadcast(writer, 9050);
 
             while (!Console.KeyAvailable)
             {

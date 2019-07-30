@@ -1,10 +1,12 @@
-# LiteNetLib 0.8 indev
+# LiteNetLib 0.9 indev
 
 Lite reliable UDP library for .NET Framework 3.5, Mono, .NET Core 2.0, .NET Standard 2.0.
 
-[STABLE BRANCH (and examples) for 0.8.x](https://github.com/RevenantX/LiteNetLib/tree/v0.8.3)
+[STABLE BRANCH (and examples) for 0.8.x](https://github.com/RevenantX/LiteNetLib/tree/0.8)
 
 [![Discord](https://img.shields.io/discord/501682175930925058.svg)](https://discord.gg/FATFPdy)
+
+[Little Game Example on Unity](https://github.com/RevenantX/NetGameExample)
 
 ## Build
 
@@ -26,9 +28,11 @@ Lite reliable UDP library for .NET Framework 3.5, Mono, .NET Core 2.0, .NET Stan
 * Simple connection handling
 * Peer to peer connections
 * Helper classes for sending and reading messages
+* Multiple data channels
 * Different send mechanics
   * Reliable with order
   * Reliable without order
+  * Reliable sequenced (realiable only last packet)
   * Ordered but unreliable with duplication prevention
   * Simple UDP packets without order and reliability
 * Fast packet serializer [(Usage manual)](https://github.com/RevenantX/LiteNetLib/wiki/NetSerializer-usage)
@@ -50,7 +54,7 @@ Lite reliable UDP library for .NET Framework 3.5, Mono, .NET Core 2.0, .NET Stan
   * Lumin OS (Magic Leap)
 
 ## Unity notes!!!
-* Always use library sources instead of precompiled DLL files. 
+* Always use library sources instead of precompiled DLL files ( because there are platform specific #ifdefs and workarounds for unity bugs )
 
 ## Usage samples
 
@@ -137,8 +141,8 @@ server.Stop();
 * **SimulationMaxLatency**
   * maximum simulated latency
   * default value: **100 msec**
-* **DiscoveryEnabled**
-  * Allows receive DiscoveryRequests
+* **BroadcastEnabled**
+  * Allows receive Broadcast packets
   * default value: **false**
 * **ReconnectDelay**
   * delay betwen connection attempts
