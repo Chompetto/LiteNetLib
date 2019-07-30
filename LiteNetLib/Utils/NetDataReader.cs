@@ -378,19 +378,24 @@ namespace LiteNetLib.Utils
             return obj;
         }
 
+        //public byte[] GetRemainingBytes()
+        //{
+        //    int bytesCount = GetInt();
+        //    if (bytesCount <= 0)
+        //    {
+        //        return null;
+        //    }
+
+        //    var data = _data.Slice(_position, _data.Length);
+        //    _position = _data.Length;
+        //    return data;
+        //}
         public byte[] GetRemainingBytes()
         {
-            int bytesCount = GetInt();
-            if (bytesCount <= 0)
-            {
-                return null;
-            }
-
             var data = _data.Slice(_position, _data.Length);
             _position = _data.Length;
             return data;
         }
-
         //public byte[] GetRemainingBytes()
         //{
         //    byte[] outgoingData = new byte[AvailableBytes];
